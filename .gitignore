@@ -46,6 +46,7 @@ typings/
 
 dist/
 front-end/
+.tmp/
 
 # Optional eslint cache
 .eslintcache
