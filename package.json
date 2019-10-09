@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "postinstall":"node ./build/build.js",
+    "postinstall": "node ./build/build.js",
+    "start": "node app.js",	
     "dev": "vue-cli-service build --watch",
     "build": "node ./node_modules/@vue/cli-service/bin/vue-cli-service.js build",
     "lint": "vue-cli-service lint",
@@ -30,7 +31,6 @@
     "fibers": "^4.0.1",
     "flowchart.js": "^1.11.3",
     "github-markdown-css": "^2.10.0",
-    "jace": "git://github.com/boldak/jace-front.git",
     "jace-front": "github:boldak/jace-front",
     "jszip": "^3.2.2",
     "katex": "^0.10.1",
