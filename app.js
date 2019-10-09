@@ -5,6 +5,8 @@ if( !process.env.NODE_ENV ){
     process.env.NODE_ENV = "development"
 }
 const mode = process.env.NODE_ENV
+console.log(`Start JACE PUB SERVICE in  ${mode} mode.`)
+console.log(process.env)
 
 const config = require(`./config/mode/${mode}`)
 
