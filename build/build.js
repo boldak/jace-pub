@@ -6,4 +6,10 @@ fs.copySync(
 	{ overwrite: true }
 )
 
-fs.mkdirsSync("./.tmp/public/")
+// fs.mkdirsSync("./.tmp/public/")
+
+fs.copySync(
+	"./assets/", 
+	"./.tmp/public/", 
+	{ overwrite: true }
+)
