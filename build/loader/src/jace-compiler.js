@@ -90,7 +90,7 @@ try {
 	`)(src, options)
 } catch(e) {
 	result = source
-	console.log("Error")
+	console.log("Error", e.toString())
 	console.log("=============================")
 	console.log(source)
 	console.log("=============================")

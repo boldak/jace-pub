@@ -1,17 +1,26 @@
-let publisher = require('./publisher')
+var socket = require('socket.io-client')('http://localhost:8081');
 
-publisher.log.then( res => {
-	console.log(res)
-})
-
-publisher.action.then(() => {
-	console.log("JACE publish action complete")
-	const resolve = require("path").resolve
-	const zip = require("./fs/zip")
-	zip("./dist/.dist/", "./dist/export.zip").then(()=>{
-		console.log("app zipped in ", resolve("./dist/export.zip"))	
-	})
+module.exports = (appConfig) => {
 	
-})
+	let publisher = require("./publisher")(appConfig)
+	let agent = appConfig.pubAgent
+
+	// publisher.log.then( msg => {
+	// 	console.log("STREAM>>>",msg)
+	// 	socket.emit('log', {agent, msg})
+	// }).catch(e => {
+	// 	console.log("STREAM ERROR ", e.toString())
+	// })
+
+	publisher.action.then( (zipFile) => {
+		// console.log("App publication complete. App ziped into "+zipFile)
+		socket.emit('log',{agent, msg:"App publication complete. App ziped into "+zipFile})
+		socket.emit('log',{agent, msg:'-end-'})
+		// socket.disconnect()
+	}).catch(e => {
+		console.log("ACTION ERROR ", e.toString())
+	})	
+
+}
 
 

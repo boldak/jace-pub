@@ -1,3 +1,4 @@
 module.exports = {
-	mode: "publication"
+	mode: "publication",
+	appConfig: "__appConfig__"
 }

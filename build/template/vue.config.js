@@ -24,11 +24,13 @@ module.exports = {
             .add(resolve('vuetify'))
             .end()
 
-        config.plugin('JaceLoaderPlugin')
-            .use(new JaceLoaderPlugin(jaceConfig))
+        
 
         config.plugin('VuetifyLoaderPlugin')
             .use(VuetifyLoaderPlugin)
+
+        config.plugin('JaceLoaderPlugin')
+            .use(new JaceLoaderPlugin(jaceConfig))    
 
         config.module
             .rule('vue')
