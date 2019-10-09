@@ -13,10 +13,15 @@ const config = require(`./config/mode/${mode}`)
 let app = express();
  
 app.use(express.static('./.tmp/public'));
- 
-let server = app.listen(config.port, function(){
-    console.log(`Mode: ${mode}. JACE Pub Service started at port: ${server.address().port}.`);
+
+
+let server = app.listen({ port: process.env.PORT || 8081 }, function(){
+  console.log(`🚀 JACE PUB SERVICE ready at ${JSON.stringify(server.address())}`);
 });
+ 
+// let server = app.listen(config.port, function(){
+//     console.log(`Mode: ${mode}. JACE Pub Service started at port: ${server.address().port}.`);
+// });
 
 const io = require('socket.io')(server);
 const publish = require("./build/publish")
