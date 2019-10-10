@@ -5,18 +5,15 @@ module.exports = (appConfig) => {
 	let publisher = require("./publisher")(appConfig)
 	let agent = appConfig.pubAgent
 
-	// publisher.log.then( msg => {
-	// 	console.log("STREAM>>>",msg)
-	// 	socket.emit('log', {agent, msg})
-	// }).catch(e => {
-	// 	console.log("STREAM ERROR ", e.toString())
-	// })
+	socket.on("info", (socketID) => {
+		socket.emit("init",`${socketID} publish process wrapper`)
+	})
 
 	publisher.action.then( (zipFile) => {
-		// console.log("App publication complete. App ziped into "+zipFile)
-		socket.emit('log',{agent, msg:"App publication complete. App ziped into "+zipFile})
-		socket.emit('log',{agent, msg:'-end-'})
-		// socket.disconnect()
+
+		socket.emit('process',{agent, msg:"App publication complete. App ziped into "+zipFile})
+		socket.emit('process',{agent, msg:'-end-'})
+
 	}).catch(e => {
 		console.log("ACTION ERROR ", e.toString())
 	})	

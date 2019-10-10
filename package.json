@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "postinstall":"node ./build/build.js",
+    "postinstall": "node ./build/build.js",
     "start": "node app.js"
   },
   "dependencies": {
@@ -15,6 +15,7 @@
     "axios": "^0.18.0",
     "babel-eslint": "^10.0.1",
     "core-js": "^2.6.5",
+    "cors": "^2.8.5",
     "deepmerge": "^4.0.0",
     "echarts": "^4.2.1",
     "echarts-gl": "^1.1.1",

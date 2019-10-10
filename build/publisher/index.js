@@ -15,6 +15,9 @@ const resolve = require("path").resolve;
 
 var socket = require('socket.io-client')('http://localhost:8081');
 
+socket.on("info", (socketID) => {
+		socket.emit("init",`${socketID} JACE publisher`)
+})
 
 module.exports = appConfig => {
 
@@ -23,7 +26,7 @@ module.exports = appConfig => {
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-	socket.emit('log', {agent, msg:"Prepare publishing..."})
+	socket.emit('process', {agent, msg:"Prepare publishing..."})
 	
 	fs.mkdirsSync(distDir)
 	fs.copySync(
@@ -42,7 +45,7 @@ module.exports = appConfig => {
 		`${distDir}/src/main.js`,
 		{ overwrite: true }	
 	)
-	
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 	let html = fs.readFileSync(`${distDir}/public/index.html`).toString()
@@ -71,41 +74,24 @@ module.exports = appConfig => {
 ///////////////////////////////////////////////////////////////////////////////////////////
 	// console.log(`cd ${resolve(distDir)} && dir && npm run build`)
 	
-	socket.emit('log', {agent, msg:"Start webpack..."})
+	socket.emit('process', {agent, msg:"Start webpack..."})
 	
 	let action = require('execa').shell(`cd ${resolve(distDir)} && npm run build`)
 	let stream = action.stdout;
 	stream.pipe(process.stdout);
 
-	// getStream(stream).then( msg => {
-	// 	console.log("STREAM>>>",msg)
-	// 	socket.emit('log', {agent, msg})
-	// })
-
-
 	return {
-		// log: getStream(stream).then( msg => {
-		// 	console.log("STREAM>>>",msg)
-		// 	socket.emit('log', {agent, msg})
-		// }),
 
 		action: 
 			action
-				// .then( res => {
-				// 	return fs.copy(
-				// 		`${distDir}/.dist/`,
-				// 		'./.tmp/public/', 
-				// 		{ overwrite: true }
-				// 	)
-				// })
 				.then( res => {
-					socket.emit('log', {agent, msg:"Compress publishing..."})
+					socket.emit('process', {agent, msg:"Compressing..."})
 					let zipName = `${appConfig.id}-${ require("moment") (new Date()).format("YYYY_MM_DD_HH_MM_ss")}.zip`
 					return require ("../fs/zip") (`${distDir}/.dist/`, `./.tmp/public/${zipName}`).then(() => zipName)					
 				})
 				.then(zipName => {
-					socket.emit('log', {agent, msg:zipName})
-					socket.emit('log', {agent, msg:"Remove temp files."})
+					socket.emit('process', {agent, msg:zipName})
+					socket.emit('process', {agent, msg:"Remove temp files."})
 					fs.removeSync(distDir)
 					return zipName
 				})
