@@ -6,7 +6,6 @@ if (!process.env.NODE_ENV) {
 }
 const mode = process.env.NODE_ENV
 console.log(`Start JACE PUB SERVICE in  ${mode} mode.`)
-// console.log(process.env)
 
 let app = express();
 app.use(express.static('./.tmp/public'));
@@ -36,22 +35,22 @@ app.use(function(req, res, next) {
 });
 
 io.on('connection', function(socket) {
-    console.log("Connect", socket.id)
+    console.log("Connect >>>>>>>>>>>>> ", socket.id)
 
     io.to(socket.id).emit("info", socket.id)
 
     socket.on('init', function(data) {
-        console.log("Init", data)
+        console.log("INIT >>>>>>>>>>>>>>>>>>>>", data)
     });
 
     socket.on('process', function(data) {
-        console.log(data.agent, data.msg)
+        console.log(`PROCESS >> ${data.agent} >> ${data.msg}`)
         io.to(data.agent).emit('log', data.msg)
 
     });
 
     socket.on("complete", function(data){
-        console.log("Complete", data.pubAgent)
+        console.log(`>> ${data.pubAgent} >> Complete`)
         fs.removeSync(`./.tmp/public/${data.file}`)
         io.to(data.pubAgent).emit('log', `Remove ${data.file} on server side.`);
         io.to(data.pubAgent).emit('log', `That all folks!`);
@@ -59,14 +58,14 @@ io.on('connection', function(socket) {
     })
 
     socket.on('publish', function(data) {
-        console.log(data.pubAgent, `Accept publication request for ${data.name}`)
+        console.log(`>> ${data.pubAgent} >> Accept publication request for ${data.name}`)
         io.to(data.pubAgent).emit('log', `Accept publication request for ${data.name}`)
         publish(data)
     });
 
     socket.on('download', function(data) {
         io.to(data.pubAgent).emit("log", `Download ${data.file} ...`)
-        console.log(data.pubAgent, `Download ${data.file} ...`)
+        console.log(`>> ${data.pubAgent} >> Download ${data.file} ...`)
         fs.readFile(`./.tmp/public/${data.file}`, function(err, buf) {
             io.to(data.pubAgent).emit('download-result', { filename: data.file, buffer: buf });
         });
