@@ -1,11 +1,10 @@
-
+var socket = require('socket.io-client')('http://localhost:8081');
 
 module.exports = (appConfig) => {
 	
 	let publisher = require("./publisher")(appConfig)
 	let agent = appConfig.pubAgent
 
-	let socket = require('socket.io-client')('http://localhost:8081');
 	socket.on("info", (socketID) => {
 		socket.emit("init",`${socketID} publish process wrapper`)
 	})
