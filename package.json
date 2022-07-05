@@ -33,7 +33,7 @@
     "katex": "^0.10.1",
     "leaflet": "^1.3.4",
     "lodash": "^4.17.11",
-    "mermaid": "^8.0.0-rc.8",
+    "mermaid": "^9.1.2",
     "moment": "^2.22.2",
     "sass": "^1.22.10",
     "sass-loader": "^7.3.1",
